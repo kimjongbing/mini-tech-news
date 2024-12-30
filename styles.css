@@ -197,3 +197,22 @@ main {
         padding: 1rem;
     }
 } 
+
+.github-link {
+    color: var(--text-secondary);
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    margin-right: 8px;
+}
+
+.github-link:hover {
+    color: var(--text-primary);
+}
+
+.github-link svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+} 
