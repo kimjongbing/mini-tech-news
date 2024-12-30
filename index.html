@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech News Aggregator</title>
+    
+    <!-- HTMX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.10/htmx.min.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="title-section">
+        <h1 class="site-title">Tech News Aggregator</h1>
+    </div>
+
+    <header>
+        <div class="nav-container">
+            <nav hx-target="#content">
+                <button 
+                    hx-get="/api/feeds/all" 
+                    class="tab-button active"
+                    hx-on::after-request="document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active')); this.classList.add('active')">
+                    All
+                </button>
+                <button 
+                    hx-get="/api/feeds/hackernews" 
+                    class="tab-button"
+                    hx-on::after-request="document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active')); this.classList.add('active')">
+                    HackerNews
+                </button>
+                <button 
+                    hx-get="/api/feeds/lobsters" 
+                    class="tab-button"
+                    hx-on::after-request="document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active')); this.classList.add('active')">
+                    Lobsters
+                </button>
+                <button 
+                    hx-get="/api/feeds/krebs" 
+                    class="tab-button"
+                    hx-on::after-request="document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active')); this.classList.add('active')">
+                    Krebs
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="content">
+        <article class="story">
+            <div class="story-header">
+                <div>
+                    <h2 class="story-title">
+                        <a href="#" target="_blank">Understanding Modern Browser Architecture</a>
+                    </h2>
+                    <div class="story-meta">
+                        <span class="source source-hn">hackernews</span>
+                        <span>mozilla.org</span>
+                        <span>2h ago</span>
+                        <span>342 points</span>
+                        <span>127 comments</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <button 
+            hx-get="/api/feeds/all?page=2" 
+            hx-target="this"
+            hx-swap="outerHTML"
+            class="load-more">
+            Load More
+            <span class="htmx-indicator">Loading...</span>
+        </button>
+    </main>
+</body>
+</html>
