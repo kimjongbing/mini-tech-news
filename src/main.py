@@ -1,24 +1,22 @@
-import requests
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+import os
 
-headers = {
-    "User-Agent": "Mozilla/5.0",
-    "Content-Type": "application/x-www-form-urlencoded",
-    "Origin": "https://techurls.com",
-    "Referer": "https://techurls.com/",
-}
+app = FastAPI()
 
-data = {"site": "hackernews", "interval": "latest", "u": "2", "v": "194334"}
+app.mount("/static", StaticFiles(directory="src/static"), name="static")
 
-response = requests.post(
-    "https://techurls.com/api/get_titles", headers=headers, data=data
-)
 
-if response.status_code == 200:
-    stories = response.json()
-    print(stories)
-    if stories["status"] == "success":
-        newest_id = stories["data"][0]["id"]
-        print(f"Newest ID: {newest_id}")
-else:
-    print(f"Error: {response.status_code}")
-    print(response.text)
+@app.get("/")
+async def root():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    index_path = os.path.join(current_dir, "static", "index.html")
+
+    with open(index_path) as f:
+        return HTMLResponse(content=f.read())
+
+
+from .api.hackernews import router
+
+app.include_router(router)
