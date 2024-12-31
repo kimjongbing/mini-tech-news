@@ -25,6 +25,8 @@
             pylint
             pyright
             python313Packages.requests
+            python313Packages.fastapi
+            python313Packages.fastapi-cli
             # additional packages
           ];
 
