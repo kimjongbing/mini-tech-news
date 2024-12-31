@@ -24,6 +24,7 @@
             black
             pylint
             pyright
+            python313Packages.requests
             # additional packages
           ];
 
