@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech News Aggregator</title>
+    
+    <!-- HTMX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.10/htmx.min.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="title-section">
+        <h1 class="site-title">Tech News Aggregator</h1>
+        <a href="https://github.com/yourusername/tech-news-aggregator" class="github-link" title="View on GitHub">
+            <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            </svg>
+        </a>
+    </div>
+
+    <header>
+        <div class="nav-container">
+            <nav hx-target="#content">
+                <button 
+                    hx-get="/api/feeds/all" 
+                    class="tab-button active"
+                    hx-on::after-request="document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active')); this.classList.add('active')">
+                    All
+                </button>
+                <button 
+                    hx-get="/api/feeds/hackernews" 
+                    class="tab-button"
+                    hx-on::after-request="document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active')); this.classList.add('active')">
+                    HackerNews
+                </button>
+                <button 
+                    hx-get="/api/feeds/lobsters" 
+                    class="tab-button"
+                    hx-on::after-request="document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active')); this.classList.add('active')">
+                    Lobsters
+                </button>
+                <button 
+                    hx-get="/api/feeds/krebs" 
+                    class="tab-button"
+                    hx-on::after-request="document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active')); this.classList.add('active')">
+                    Krebs
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="content">
+        <article class="story">
+            <div class="story-header">
+                <div>
+                    <h2 class="story-title">
+                        <a href="#" target="_blank">Understanding Modern Browser Architecture</a>
+                    </h2>
+                    <div class="story-meta">
+                        <span class="source source-hn">hackernews</span>
+                        <span>mozilla.org</span>
+                        <span>2h ago</span>
+                        <span>342 points</span>
+                        <span>127 comments</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <button 
+            hx-get="/api/feeds/hackernews" 
+            hx-target="this"
+            hx-swap="outerHTML"
+            class="load-more">
+            Load More
+            <span class="htmx-indicator">Loading...</span>
+        </button>
+    </main>
+</body>
+</html>
